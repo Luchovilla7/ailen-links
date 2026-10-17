@@ -135,7 +135,7 @@ button:focus-visible {
     position: relative;
     width: 100%;
     height: 280px;
-    background-image: url('https://assets.cdn.filesafe.space/nAQdE71xqcn0C0zJjtPc/media/6a3aaca0967e20d627b9b0d4.png');
+    background-image: url('../img/ailencatriel/banner-cover.png');
     background-size: cover;
     background-position: center;
 }
