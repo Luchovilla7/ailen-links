@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ADAIA | Academia digital de avatares con IA</title>
+  <meta name="description" content="Creá tu propio avatar y producí imágenes, videos y UGC con IA realista, con herramientas accesibles y sin suscripciones caras." />
+  <meta property="og:title" content="ADAIA | Academia digital de avatares con IA" />
+  <meta property="og:description" content="Contenido con IA que parece real. Sin suscripciones caras. Acceso de por vida." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0e0e10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Íconos: Phosphor Icons (web) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!--
+    MEDIOS (carpeta media/ junto a este archivo). Si un archivo no existe, se muestra un recuadro con su nombre.
+    Videos 9:16 en .mp4 (H.264), livianos (idealmente < 4 MB c/u). Imágenes .jpg o .webp.
+
+      Portada:            media/hero-1.mp4, media/hero-2.mp4, media/hero-3.mp4          (9:16)
+      Ejemplos:           media/ejemplo-1.mp4 ... media/ejemplo-8 (ver la galería abajo) (9:16)
+      Qué hay adentro:    media/adentro-avatar.jpg (9:16), media/adentro-video.mp4 (9:16),
+                          media/adentro-boveda.jpg (horizontal 16:9)
+      La academia:        media/academia-1.jpg y media/academia-2.jpg (capturas de pantalla 16:10),
+                          media/academia-3.jpg (captura del celular 9:16)
+      Es para vos:        media/para-vos.mp4 (9:16)
+  -->
+
+  <style>
+    :root {
+      --bg: #0e0e10;
+      --bg-2: #151518;
+      --surface: #1a1a1e;
+      --line: #2a2a30;
+      --line-2: #3a3a42;
+      --text: #f1efea;
+      --muted: #b6b3ad;
+      --faint: #8b8882;
+      --accent: #f0703f;          /* único acento de la página */
+      --accent-ink: #141210;      /* texto sobre el acento */
+      --accent-soft: rgba(240, 112, 63, 0.14);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f3f2ef;
+        --bg-2: #eae8e4;
+        --surface: #ffffff;
+        --line: #dcd9d3;
+        --line-2: #c9c5bd;
+        --text: #141416;
+        --muted: #4a4844;
+        --faint: #6b6862;
+        --accent: #c94e1f;
+        --accent-ink: #ffffff;
+        --accent-soft: rgba(201, 78, 31, 0.1);
+        --shadow: 0 24px 60px rgba(60, 40, 20, 0.14);
+        color-scheme: light;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; }
+    h1, h2, h3 { margin: 0; letter-spacing: -0.025em; line-height: 1.08; font-weight: 700; }
+    p { margin: 0; }
+    .wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 96px 0; }
+    .lead { color: var(--muted); font-size: 18px; max-width: 60ch; }
+    .eyebrow { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+    .sec-title { font-size: clamp(32px, 4.2vw, 52px); max-width: 18ch; }
+    .sec-head { display: grid; gap: 16px; margin-bottom: 44px; }
+
+    /* ---------- botones (todos pill) ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 15px 26px; border-radius: 999px; border: 1px solid transparent;
+      font: inherit; font-weight: 600; font-size: 16px; text-decoration: none; white-space: nowrap; cursor: pointer;
+      transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 10px 30px rgba(240, 112, 63, 0.25); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(240, 112, 63, 0.32); }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--line-2); }
+    .btn-ghost:hover { border-color: var(--text); transform: translateY(-2px); }
+    .btn:focus-visible, a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* ---------- medios con recuadro de reserva ---------- */
+    .media { position: relative; overflow: hidden; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+    .media.v916 { aspect-ratio: 9 / 16; }
+    .media.v169 { aspect-ratio: 16 / 9; }
+    .media.v1610 { aspect-ratio: 16 / 10; }
+    .media > img, .media > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+    .media .ph {
+      position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 8px; padding: 16px; text-align: center;
+      color: var(--faint); font-size: 13px;
+      background:
+        radial-gradient(120% 70% at 50% 0%, var(--accent-soft), transparent 60%),
+        repeating-linear-gradient(135deg, transparent 0 14px, rgba(127, 127, 127, 0.06) 14px 15px),
+        var(--surface);
+    }
+    .media .ph i { font-size: 28px; color: var(--muted); }
+    .media .ph code { font-family: ui-monospace, 'Cascadia Code', monospace; font-size: 12px; color: var(--muted); }
+    .media .gone { display: none; }
+
+    /* ---------- navegación ---------- */
+    .nav { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line); }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.08em; text-decoration: none; font-size: 18px; }
+    .brand svg { width: 30px; height: 30px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a:not(.btn) { color: var(--muted); text-decoration: none; font-size: 15px; transition: color 0.2s; }
+    .nav-links a:not(.btn):hover { color: var(--text); }
+    .nav .btn { padding: 10px 18px; font-size: 14px; }
+
+    /* ---------- portada ---------- */
+    .hero { padding: 56px 0 80px; }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; min-height: calc(100dvh - 68px - 136px); }
+    .hero-copy { display: grid; gap: 22px; justify-items: start; }
+    .hero h1 { font-size: clamp(34px, 3.8vw, 50px); line-height: 1.06; }
+    .hero h1 span { display: block; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub { color: var(--muted); font-size: 19px; max-width: 44ch; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+    .hero-stack { position: relative; display: grid; grid-template-columns: 0.82fr 1fr 0.82fr; gap: 14px; align-items: center; }
+    .hero-stack .media { box-shadow: var(--shadow); }
+    .hero-stack .media:nth-child(1) { transform: translateY(28px); }
+    .hero-stack .media:nth-child(2) { transform: translateY(-24px); }
+    .hero-stack .media:nth-child(3) { transform: translateY(40px); }
+
+    /* ---------- ejemplos (galería horizontal) ---------- */
+    .gallery-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
+    .gallery-head .sec-head { margin: 0; }
+    .gallery-nav { display: flex; gap: 10px; }
+    .icon-btn { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--text); display: grid; place-items: center; cursor: pointer; font-size: 20px; transition: border-color 0.2s, transform 0.2s var(--ease); }
+    .icon-btn:hover { border-color: var(--text); }
+    .icon-btn:active { transform: scale(0.96); }
+    .gallery { display: grid; grid-auto-flow: column; grid-auto-columns: clamp(220px, 22vw, 280px); gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 24px 18px; margin: 0 -24px; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+    .gallery figure { margin: 0; scroll-snap-align: start; display: grid; gap: 10px; }
+    .gallery figcaption { font-size: 14px; color: var(--muted); }
+    .gallery .media { transition: transform 0.4s var(--ease), border-color 0.3s; }
+    .gallery figure:hover .media { transform: translateY(-4px); border-color: var(--line-2); }
+
+    /* ---------- manifiesto ---------- */
+    .manifesto { background: var(--bg-2); border-block: 1px solid var(--line); }
+    .manifesto .wrap { display: grid; gap: 28px; }
+    .manifesto .question { color: var(--accent); font-size: 18px; font-weight: 600; }
+    .manifesto blockquote { margin: 0; font-size: clamp(34px, 5.4vw, 68px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; max-width: 20ch; }
+    .manifesto blockquote span { color: var(--faint); }
+    .manifesto .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 56px; max-width: 980px; color: var(--muted); font-size: 18px; }
+    .manifesto .cols strong { color: var(--text); font-weight: 600; }
+
+    /* ---------- qué hay adentro (bento) ---------- */
+    .bento {
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(210px, auto));
+      grid-template-areas:
+        "avatar prompts prompts video"
+        "avatar ugc tools video"
+        "boveda boveda ahorro video";
+    }
+    .cell { position: relative; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); padding: 24px; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; min-height: 210px; }
+    .cell h3 { font-size: 21px; }
+    .cell p { color: var(--muted); font-size: 15px; max-width: 34ch; }
+    .cell i.ico { font-size: 28px; color: var(--accent); margin-bottom: auto; }
+    .cell.has-media { padding: 0; }
+    .cell.has-media .media { position: absolute; inset: 0; border: 0; border-radius: 0; }
+    .cell.has-media .cap { position: relative; z-index: 2; margin-top: auto; padding: 80px 24px 22px; background: linear-gradient(to top, rgba(10, 10, 12, 0.92), rgba(10, 10, 12, 0.55) 55%, transparent); color: #f1efea; display: grid; gap: 6px; }
+    .cell.has-media .cap p { color: rgba(241, 239, 234, 0.78); }
+    .cell.tint { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+    .a-avatar { grid-area: avatar; } .a-prompts { grid-area: prompts; } .a-video { grid-area: video; }
+    .a-ugc { grid-area: ugc; } .a-tools { grid-area: tools; } .a-boveda { grid-area: boveda; } .a-ahorro { grid-area: ahorro; }
+
+    /* ---------- la academia por dentro ---------- */
+    .inside-grid { display: grid; grid-template-columns: 2.2fr 1fr; gap: 18px; align-items: start; }
+    .inside-main { display: grid; gap: 18px; }
+    .inside-grid .media { box-shadow: var(--shadow); }
+    .inside-side { display: grid; gap: 14px; }
+    .inside-side p { color: var(--muted); font-size: 15px; }
+
+    /* ---------- es para vos ---------- */
+    .fit .wrap { display: grid; grid-template-columns: 1fr minmax(240px, 340px); gap: 64px; align-items: center; }
+    .fit-list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
+    .fit-list li { display: flex; gap: 14px; align-items: flex-start; font-size: 18px; }
+    .fit-list i { flex: none; margin-top: 3px; font-size: 22px; color: var(--accent); }
+    .fit-note { margin-top: 28px; padding: 18px 20px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+    .fit-note strong { color: var(--text); }
+
+    /* ---------- precio ---------- */
+    .pricing { background: var(--bg-2); border-block: 1px solid var(--line); }
+    .price-card { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; border-radius: 24px; overflow: hidden; border: 1px solid var(--line-2); background: var(--surface); box-shadow: var(--shadow); }
+    .price-main { padding: 40px; display: grid; gap: 18px; align-content: start; border-right: 1px solid var(--line); }
+    .price-main h2 { font-size: clamp(28px, 3.2vw, 38px); }
+    .price-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+    .price-old { color: var(--faint); font-size: 22px; text-decoration: line-through; text-decoration-thickness: 2px; }
+    .price-now { font-size: clamp(56px, 7vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    .price-now small { font-size: 22px; font-weight: 600; letter-spacing: 0; margin-right: 4px; color: var(--muted); }
+    .price-meta { color: var(--muted); font-size: 15px; }
+    .countdown { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--text); font-size: 15px; }
+    .countdown b { font-variant-numeric: tabular-nums; font-size: 20px; letter-spacing: 0.02em; }
+    .countdown i { color: var(--accent); font-size: 20px; }
+    .price-main .btn { width: 100%; padding: 18px 26px; font-size: 17px; }
+    .price-incl { padding: 40px; display: grid; gap: 16px; align-content: start; }
+    .price-incl h3 { font-size: 17px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+    .price-incl ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+    .price-incl li { display: flex; gap: 12px; align-items: flex-start; }
+    .price-incl li i { flex: none; color: var(--accent); font-size: 20px; margin-top: 2px; }
+    .is-ended .countdown { display: none; }
+    .is-ended .price-old { display: none; }
+
+    /* ---------- preguntas ---------- */
+    .faq .wrap { display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px; align-items: start; }
+    .faq-list { display: grid; gap: 12px; }
+    .faq details { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 4px 22px; transition: border-color 0.2s; }
+    .faq details[open] { border-color: var(--line-2); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 600; font-size: 17px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary i { transition: transform 0.3s var(--ease); color: var(--muted); }
+    .faq details[open] summary i { transform: rotate(45deg); }
+    .faq details p { color: var(--muted); padding: 0 0 20px; max-width: 60ch; }
+
+    /* ---------- cierre ---------- */
+    .closing { text-align: center; padding: 112px 0; }
+    .closing .wrap { display: grid; gap: 20px; justify-items: center; }
+    .closing h2 { font-size: clamp(36px, 5.6vw, 72px); max-width: 16ch; }
+    .closing p { color: var(--muted); font-size: 19px; }
+    footer { border-top: 1px solid var(--line); padding: 32px 0 40px; color: var(--faint); font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    /* ---------- barra de compra en el celular ---------- */
+    .buybar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 50; display: none; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 18px; border-radius: 999px; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--line-2); box-shadow: var(--shadow); transform: translateY(140%); transition: transform 0.4s var(--ease); }
+    .buybar.show { transform: none; }
+    .buybar span { font-size: 14px; color: var(--muted); line-height: 1.3; }
+    .buybar span b { color: var(--text); font-size: 17px; }
+    .buybar .btn { padding: 12px 18px; font-size: 15px; }
+
+    /* ---------- aparición al hacer scroll ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); transition-delay: calc(var(--i, 0) * 70ms); }
+      .reveal.in { opacity: 1; transform: none; }
+      .hero-stack .media { animation: rise 1s var(--ease) both; animation-delay: calc(var(--i, 0) * 120ms + 150ms); }
+      @keyframes rise { from { opacity: 0; translate: 0 40px; } to { opacity: 1; translate: 0 0; } }
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 1023px) {
+      .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-template-areas:
+        "avatar video" "avatar video" "prompts prompts" "ugc tools" "boveda boveda" "ahorro ahorro"; }
+      .a-avatar, .a-video { min-height: 420px; }
+      .price-card { grid-template-columns: 1fr; }
+      .price-main { border-right: 0; border-bottom: 1px solid var(--line); }
+      .faq .wrap { grid-template-columns: 1fr; gap: 32px; }
+    }
+    @media (max-width: 767px) {
+      body { font-size: 16px; }
+      section { padding: 72px 0; }
+      .wrap { padding: 0 16px; }
+      .nav-links a:not(.btn) { display: none; }
+      .hero { padding: 32px 0 56px; }
+      .hero .wrap { grid-template-columns: 1fr; gap: 40px; min-height: 0; }
+      .hero-sub { font-size: 17px; }
+      .hero-ctas { width: 100%; }
+      .hero-ctas .btn { flex: 1 1 auto; }
+      .hero-stack { gap: 10px; }
+      .hero-stack .media:nth-child(1) { transform: translateY(16px); }
+      .hero-stack .media:nth-child(2) { transform: translateY(-12px); }
+      .hero-stack .media:nth-child(3) { transform: translateY(22px); }
+      .gallery-head { align-items: flex-start; flex-direction: column; }
+      .gallery-nav { display: none; }
+      .gallery { grid-auto-columns: 68%; padding: 4px 16px 18px; margin: 0 -16px; }
+      .manifesto .cols { grid-template-columns: 1fr; gap: 20px; }
+      .bento { grid-template-columns: 1fr; grid-template-areas: "avatar" "prompts" "video" "ugc" "tools" "boveda" "ahorro"; }
+      .a-avatar, .a-video { min-height: 0; aspect-ratio: 9 / 13; }
+      .a-boveda { min-height: 0; aspect-ratio: 16 / 11; }
+      .inside-grid { grid-template-columns: 1fr; }
+      .inside-side .media.v916 { max-width: 260px; }
+      .fit .wrap { grid-template-columns: 1fr; gap: 40px; }
+      .fit .media { max-width: 300px; }
+      .price-main, .price-incl { padding: 28px 22px; }
+      .buybar { display: flex; }
+      footer { padding-bottom: 96px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="ADAIA, inicio">
+        <!-- Marca simple: monograma A -->
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="10" fill="var(--accent)" />
+          <path d="M9.5 23 15 9h2l5.5 14h-3l-1.3-3.6h-4.4L12.5 23h-3Zm5.2-6.3h2.6L16 12.9l-1.3 3.8Z" fill="var(--accent-ink)" />
+        </svg>
+        ADAIA
+      </a>
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#ejemplos">Ejemplos</a>
+        <a href="#adentro">Qué hay adentro</a>
+        <a href="#precio">Precio</a>
+        <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- PORTADA -->
+    <section class="hero" id="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <span class="eyebrow js-launch-label">Lanzamiento: solo por hoy</span>
+          <h1><span>IA que parece real.</span> <em>Sin suscripciones caras.</em></h1>
+          <p class="hero-sub">Creá tu propio avatar y producí imágenes, videos y UGC con herramientas accesibles. Sin experiencia previa.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+            <a class="btn btn-ghost" href="#ejemplos"><i class="ph ph-play" aria-hidden="true"></i> Ver ejemplos</a>
+          </div>
+        </div>
+        <div class="hero-stack" aria-label="Ejemplos de videos hechos con IA">
+          <div class="media v916" style="--i:0"><video src="media/hero-1.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo 1"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/hero-1.mp4</code></div></div>
+          <div class="media v916" style="--i:1"><video src="media/hero-2.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo 2"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/hero-2.mp4</code></div></div>
+          <div class="media v916" style="--i:2"><video src="media/hero-3.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo 3"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/hero-3.mp4</code></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EJEMPLOS -->
+    <section id="ejemplos">
+      <div class="wrap">
+        <div class="gallery-head">
+          <div class="sec-head reveal">
+            <h2 class="sec-title">Así se ve lo que vas a crear</h2>
+            <p class="lead">Avatares, imágenes y videos en 9:16, listos para redes. Todo hecho con IA, con realismo aplicado.</p>
+          </div>
+          <div class="gallery-nav">
+            <button class="icon-btn" type="button" data-scroll="-1" aria-label="Ver anteriores"><i class="ph ph-arrow-left"></i></button>
+            <button class="icon-btn" type="button" data-scroll="1" aria-label="Ver siguientes"><i class="ph ph-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="gallery" id="gallery" tabindex="0" aria-label="Galería de ejemplos">
+          <figure class="reveal" style="--i:0"><div class="media v916"><video src="media/ejemplo-1.mp4" muted loop playsinline preload="metadata" aria-label="Avatar hablando a cámara"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-1.mp4</code></div></div><figcaption>Avatar hablando a cámara</figcaption></figure>
+          <figure class="reveal" style="--i:1"><div class="media v916"><img src="media/ejemplo-2.jpg" alt="Retrato realista hecho con IA" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-2.jpg</code></div></div><figcaption>Retrato realista</figcaption></figure>
+          <figure class="reveal" style="--i:2"><div class="media v916"><video src="media/ejemplo-3.mp4" muted loop playsinline preload="metadata" aria-label="UGC de producto"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-3.mp4</code></div></div><figcaption>UGC de producto</figcaption></figure>
+          <figure class="reveal" style="--i:3"><div class="media v916"><img src="media/ejemplo-4.jpg" alt="Avatar en distintos escenarios" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-4.jpg</code></div></div><figcaption>El mismo avatar, otro escenario</figcaption></figure>
+          <figure class="reveal" style="--i:4"><div class="media v916"><video src="media/ejemplo-5.mp4" muted loop playsinline preload="metadata" aria-label="Video para Reels"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-5.mp4</code></div></div><figcaption>Video para Reels y TikTok</figcaption></figure>
+          <figure class="reveal" style="--i:5"><div class="media v916"><img src="media/ejemplo-6.jpg" alt="Foto de producto con IA" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-6.jpg</code></div></div><figcaption>Producto con IA</figcaption></figure>
+          <figure class="reveal" style="--i:6"><div class="media v916"><video src="media/ejemplo-7.mp4" muted loop playsinline preload="metadata" aria-label="Video de estilo de vida"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-7.mp4</code></div></div><figcaption>Escena de estilo de vida</figcaption></figure>
+          <figure class="reveal" style="--i:7"><div class="media v916"><img src="media/ejemplo-8.jpg" alt="Contenido para marca personal" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-8.jpg</code></div></div><figcaption>Marca personal</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFIESTO -->
+    <section class="manifesto">
+      <div class="wrap">
+        <p class="question reveal">¿Sabías que no necesitás pagar suscripciones caras para crear contenido profesional con IA?</p>
+        <blockquote class="reveal">Pagar más no te da mejor contenido. <span>Saber qué usar, sí.</span></blockquote>
+        <div class="cols">
+          <p class="reveal"><strong>ADAIA nació para eso.</strong> Para que crees tu propio avatar y produzcas imágenes, videos y UGC con IA, sin suscripciones caras.</p>
+          <p class="reveal" style="--i:1"><strong>No trabajamos con herramientas como Higgsfield o Magnific.</strong> Usamos herramientas accesibles, de muy bajo costo y con resultados de calidad.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUÉ HAY ADENTRO -->
+    <section id="adentro">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <h2 class="sec-title">¿Qué hay adentro?</h2>
+          <p class="lead">Todo lo que necesitás para crear con IA desde cero, sin experiencia previa.</p>
+        </div>
+        <div class="bento">
+          <article class="cell has-media a-avatar reveal">
+            <div class="media"><img src="media/adentro-avatar.jpg" alt="Avatar digital creado con IA" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/adentro-avatar.jpg</code></div></div>
+            <div class="cap"><h3>Tu propio avatar digital</h3><p>Un avatar consistente para usar en todo tu contenido.</p></div>
+          </article>
+          <article class="cell a-prompts reveal" style="--i:1">
+            <i class="ph ph-sparkle ico" aria-hidden="true"></i>
+            <h3>Prompts que sí funcionan</h3>
+            <p>Prompts probados para lograr resultados realistas, listos para usar y adaptar.</p>
+          </article>
+          <article class="cell has-media a-video reveal" style="--i:2">
+            <div class="media"><video src="media/adentro-video.mp4" muted loop playsinline preload="metadata" aria-label="Video hecho con IA"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/adentro-video.mp4</code></div></div>
+            <div class="cap"><h3>Imágenes y videos con IA</h3><p>Del primer prompt al video final, con realismo.</p></div>
+          </article>
+          <article class="cell a-ugc reveal" style="--i:3">
+            <i class="ph ph-device-mobile-camera ico" aria-hidden="true"></i>
+            <h3>Contenido UGC</h3>
+            <p>Videos estilo creador para mostrar productos y servicios.</p>
+          </article>
+          <article class="cell a-tools reveal" style="--i:4">
+            <i class="ph ph-toolbox ico" aria-hidden="true"></i>
+            <h3>Herramientas baratas que rinden como caras</h3>
+            <p>Las opciones accesibles que dan resultados de calidad.</p>
+          </article>
+          <article class="cell has-media a-boveda reveal" style="--i:5">
+            <div class="media"><img src="media/adentro-boveda.jpg" alt="La Bóveda de Recursos y Apps" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/adentro-boveda.jpg</code></div></div>
+            <div class="cap"><h3>La Bóveda de Recursos y Apps</h3><p>Recursos y apps reunidos en un solo lugar.</p></div>
+          </article>
+          <article class="cell tint a-ahorro reveal" style="--i:6">
+            <i class="ph ph-piggy-bank ico" aria-hidden="true"></i>
+            <h3>Ahorro en plataformas IA</h3>
+            <p>Dejá de pagar de más por funciones que no necesitás.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- LA ACADEMIA POR DENTRO -->
+    <section id="por-dentro">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <h2 class="sec-title">Así es la academia por dentro</h2>
+          <p class="lead">Contenidos, recursos y comunidad en un solo lugar. Entrás y empezás a crear.</p>
+        </div>
+        <div class="inside-grid">
+          <div class="inside-main">
+            <div class="media v1610 reveal"><img src="media/academia-1.jpg" alt="Vista de la academia ADAIA por dentro" loading="lazy" /><div class="ph"><i class="ph ph-browser"></i><code>media/academia-1.jpg</code></div></div>
+            <div class="media v1610 reveal" style="--i:1"><img src="media/academia-2.jpg" alt="Sección de contenidos de la academia" loading="lazy" /><div class="ph"><i class="ph ph-browser"></i><code>media/academia-2.jpg</code></div></div>
+          </div>
+          <div class="inside-side reveal" style="--i:2">
+            <div class="media v916"><img src="media/academia-3.jpg" alt="La academia en el celular" loading="lazy" /><div class="ph"><i class="ph ph-device-mobile"></i><code>media/academia-3.jpg</code></div></div>
+            <p>También desde el celular, para aprender y crear donde estés.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ES PARA VOS -->
+    <section class="fit">
+      <div class="wrap">
+        <div class="reveal">
+          <h2 class="sec-title">Es para vos si querés crear con IA en serio</h2>
+          <ul class="fit-list">
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Querés contenido con IA con calidad y realismo.</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Querés tu propio avatar para tu marca o tus redes.</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> No querés pagar suscripciones caras para lograrlo.</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Querés rodearte de gente que está en el mismo camino.</li>
+          </ul>
+          <p class="fit-note"><strong>Sin experiencia previa.</strong> Se aprende haciendo, con una comunidad que suma.</p>
+        </div>
+        <div class="media v916 reveal" style="--i:1"><video src="media/para-vos.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/para-vos.mp4</code></div></div>
+      </div>
+    </section>
+
+    <!-- PRECIO -->
+    <section class="pricing" id="precio">
+      <div class="wrap">
+        <div class="price-card reveal" id="price-card">
+          <div class="price-main">
+            <span class="eyebrow js-launch-label">Precio de lanzamiento</span>
+            <h2>Acceso de por vida a ADAIA</h2>
+            <div class="price-row">
+              <span class="price-old">US$<span class="js-old">97</span></span>
+              <span class="price-now"><small>US$</small><span class="js-now">17</span></span>
+            </div>
+            <p class="price-meta">Pago único. Sin suscripciones ni cuotas mensuales.</p>
+            <div class="countdown" role="timer" aria-live="off">
+              <i class="ph ph-timer" aria-hidden="true"></i>
+              <span>Solo por hoy. Termina en</span>
+              <b class="js-timer">--:--:--</b>
+            </div>
+            <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span></a>
+            <p class="price-meta js-after">Después del lanzamiento vuelve a US$97.</p>
+          </div>
+          <div class="price-incl">
+            <h3>Incluye</h3>
+            <ul>
+              <li><i class="ph ph-sparkle" aria-hidden="true"></i> Prompts que sí funcionan</li>
+              <li><i class="ph ph-user-focus" aria-hidden="true"></i> Tu propio avatar digital</li>
+              <li><i class="ph ph-film-strip" aria-hidden="true"></i> Imágenes y videos con IA</li>
+              <li><i class="ph ph-device-mobile-camera" aria-hidden="true"></i> Contenido UGC</li>
+              <li><i class="ph ph-toolbox" aria-hidden="true"></i> Herramientas baratas que rinden como caras</li>
+              <li><i class="ph ph-piggy-bank" aria-hidden="true"></i> Ahorro en plataformas IA</li>
+              <li><i class="ph ph-vault" aria-hidden="true"></i> La Bóveda de Recursos y Apps</li>
+              <li><i class="ph ph-users-three" aria-hidden="true"></i> Una comunidad que suma</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREGUNTAS -->
+    <section class="faq">
+      <div class="wrap">
+        <h2 class="sec-title reveal">Preguntas frecuentes</h2>
+        <div class="faq-list">
+          <details class="reveal">
+            <summary>¿Necesito experiencia previa? <i class="ph ph-plus" aria-hidden="true"></i></summary>
+            <p>No. Se aprende haciendo, paso a paso y con una comunidad que acompaña.</p>
+          </details>
+          <details class="reveal" style="--i:1">
+            <summary>¿Tengo que pagar suscripciones caras de IA? <i class="ph ph-plus" aria-hidden="true"></i></summary>
+            <p>No. ADAIA trabaja con herramientas accesibles y de muy bajo costo que dan resultados de calidad.</p>
+          </details>
+          <details class="reveal" style="--i:2">
+            <summary>¿El pago es mensual? <i class="ph ph-plus" aria-hidden="true"></i></summary>
+            <p>No. Es un pago único con acceso de por vida.</p>
+          </details>
+          <details class="reveal" style="--i:3">
+            <summary>¿Qué voy a poder crear? <i class="ph ph-plus" aria-hidden="true"></i></summary>
+            <p>Tu propio avatar digital, imágenes y videos con IA y contenido UGC, con foco en el realismo.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CIERRE -->
+    <section class="closing">
+      <div class="wrap">
+        <h2 class="reveal">Basta de suscripciones caras.</h2>
+        <p class="reveal" style="--i:1">Creá con IA, con calidad y realismo, y rodeate de gente en ese camino.</p>
+        <a class="btn btn-primary js-buy reveal" style="--i:2" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> ADAIA. Academia digital de avatares con Inteligencia Artificial.</span>
+      <a href="#top">Volver arriba</a>
+    </div>
+  </footer>
+
+  <div class="buybar" id="buybar" aria-hidden="true">
+    <span><b class="js-price">US$17</b><br class="js-bar-sub" />Acceso de por vida</span>
+    <a class="btn btn-primary js-buy" href="#precio" tabindex="-1"><span>Entrar por <span class="js-price">US$17</span></span></a>
+  </div>
+
+  <script>
+    /* ======================= CONFIGURACIÓN ======================= */
+    const CONFIG = {
+      // Link de pago (Hotmart, Stripe, Mercado Pago…). Mientras esté vacío, los botones llevan a la sección de precio.
+      checkoutUrl: '',
+      precioNormal: 97,
+      precioLanzamiento: 17,
+      // Fin del precio de lanzamiento (fecha y hora con zona horaria). Pasada esta hora, la página muestra US$97
+      // y oculta la cuenta regresiva. Cambiala a la fecha real del lanzamiento.
+      finLanzamiento: '2026-11-04T23:59:59-03:00',
+    };
+    /* ============================================================= */
+
+    const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Precio y cuenta regresiva (honesta: cuando termina el lanzamiento, se muestra el precio normal).
+    const end = new Date(CONFIG.finLanzamiento).getTime();
+    const pad = (n) => String(n).padStart(2, '0');
+    function applyPrice() {
+      const live = Date.now() < end;
+      const price = live ? CONFIG.precioLanzamiento : CONFIG.precioNormal;
+      $$('.js-price').forEach((el) => { el.textContent = `US$${price}`; });
+      $$('.js-now').forEach((el) => { el.textContent = price; });
+      $$('.js-old').forEach((el) => { el.textContent = CONFIG.precioNormal; });
+      document.getElementById('price-card').classList.toggle('is-ended', !live);
+      $$('.js-after').forEach((el) => { el.hidden = !live; });
+      $$('.js-launch-label').forEach((el, i) => { el.textContent = live ? (i === 0 ? 'Lanzamiento: solo por hoy' : 'Precio de lanzamiento') : (i === 0 ? 'Academia digital de avatares con IA' : 'Acceso de por vida'); });
+      return live;
+    }
+    function tick() {
+      const left = Math.max(0, end - Date.now());
+      const h = Math.floor(left / 3600e3), m = Math.floor((left % 3600e3) / 60e3), s = Math.floor((left % 60e3) / 1000);
+      $$('.js-timer').forEach((el) => { el.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`; });
+      if (!left) { applyPrice(); return false; }
+      return true;
+    }
+    if (applyPrice()) { tick(); const t = setInterval(() => { if (!tick()) clearInterval(t); }, 1000); }
+
+    // Botones de compra
+    if (CONFIG.checkoutUrl) $$('.js-buy').forEach((a) => { a.href = CONFIG.checkoutUrl; a.rel = 'noopener'; });
+
+    // Medios: si falta un archivo, queda el recuadro con su nombre.
+    $$('.media > img').forEach((img) => {
+      const fail = () => img.classList.add('gone');
+      img.addEventListener('error', fail);
+      if (img.complete && !img.naturalWidth) fail();
+    });
+    const videos = $$('.media > video');
+    videos.forEach((v) => v.addEventListener('error', () => v.classList.add('gone')));
+
+    // Los videos solo se reproducen cuando se ven (ahorra datos y batería). Con movimiento reducido, no se reproducen solos.
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      const vio = new IntersectionObserver((entries) => entries.forEach((e) => {
+        const v = e.target;
+        if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
+      }), { threshold: 0.35 });
+      videos.forEach((v) => vio.observe(v));
+    } else {
+      videos.forEach((v) => { v.controls = true; });
+    }
+
+    // Aparición al entrar en pantalla
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      const rio = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); }
+      }), { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      $$('.reveal').forEach((el) => rio.observe(el));
+    } else {
+      $$('.reveal').forEach((el) => el.classList.add('in'));
+    }
+
+    // Flechas de la galería
+    const gallery = document.getElementById('gallery');
+    $$('[data-scroll]').forEach((b) => b.addEventListener('click', () => {
+      const step = gallery.querySelector('figure')?.getBoundingClientRect().width || 280;
+      gallery.scrollBy({ left: Number(b.dataset.scroll) * (step + 18) * 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }));
+
+    // Barra de compra en el celular: aparece al pasar la portada y se oculta en la sección de precio.
+    const bar = document.getElementById('buybar');
+    if ('IntersectionObserver' in window) {
+      let pastHero = false, atPrice = false;
+      const sync = () => {
+        const show = pastHero && !atPrice;
+        bar.classList.toggle('show', show);
+        bar.setAttribute('aria-hidden', String(!show));
+        bar.querySelector('a').tabIndex = show ? 0 : -1;
+      };
+      new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting; sync(); }).observe(document.getElementById('hero'));
+      new IntersectionObserver(([e]) => { atPrice = e.isIntersecting; sync(); }, { threshold: 0.2 }).observe(document.getElementById('precio'));
+    }
+
+    $$('.js-year').forEach((el) => { el.textContent = new Date().getFullYear(); });
+  </script>
+</body>
+</html>
