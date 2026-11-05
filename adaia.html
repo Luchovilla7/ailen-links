@@ -23,7 +23,7 @@
 
       Portada:            media/hero.jpg                                                 (vertical 4:5)
       Videos:             media/hero-1.mp4, media/hero-2.mp4, media/hero-3.mp4          (9:16)
-      Ejemplos:           media/ejemplo-1.mp4 ... media/ejemplo-8 (ver la galería abajo) (9:16)
+      Ejemplos:           media/ejemplo-1.mp4 ... media/ejemplo-4.mp4                (9:16)
       Qué hay adentro:    media/adentro-avatar.jpg (9:16), media/adentro-video.mp4 (9:16),
                           media/adentro-boveda.jpg (horizontal 16:9)
       La academia:        media/academia-1.jpg y media/academia-2.jpg (capturas de pantalla 16:10),
@@ -139,12 +139,8 @@
     /* ---------- ejemplos (galería horizontal) ---------- */
     .gallery-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
     .gallery-head .sec-head { margin: 0; }
-    .gallery-nav { display: flex; gap: 10px; }
-    .icon-btn { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--text); display: grid; place-items: center; cursor: pointer; font-size: 20px; transition: border-color 0.2s, transform 0.2s var(--ease); }
-    .icon-btn:hover { border-color: var(--text); }
-    .icon-btn:active { transform: scale(0.96); }
-    .gallery { display: grid; grid-auto-flow: column; grid-auto-columns: clamp(220px, 22vw, 280px); gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 24px 18px; margin: 0 -24px; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
-    .gallery figure { margin: 0; scroll-snap-align: start; display: grid; gap: 10px; }
+    .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+    .gallery figure { margin: 0; display: grid; gap: 10px; }
     .gallery figcaption { font-size: 14px; color: var(--muted); }
     .gallery .media { transition: transform 0.4s var(--ease), border-color 0.3s; }
     .gallery figure:hover .media { transform: translateY(-4px); border-color: var(--line-2); }
@@ -279,8 +275,7 @@
       .reels-grid .media:nth-child(2) { translate: 0 -12px; }
       .reels-grid .media:nth-child(3) { translate: 0 22px; }
       .gallery-head { align-items: flex-start; flex-direction: column; }
-      .gallery-nav { display: none; }
-      .gallery { grid-auto-columns: 68%; padding: 4px 16px 18px; margin: 0 -16px; }
+      .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
       .manifesto .cols { grid-template-columns: 1fr; gap: 20px; }
       .bento { grid-template-columns: 1fr; grid-template-areas: "avatar" "prompts" "video" "ugc" "tools" "boveda" "ahorro"; }
       .a-avatar, .a-video { min-height: 0; aspect-ratio: 9 / 13; }
@@ -345,20 +340,12 @@
             <h2 class="sec-title">Así se ve lo que vas a crear</h2>
             <p class="lead">Avatares, imágenes y videos en 9:16, listos para redes. Todo hecho con IA, con realismo aplicado.</p>
           </div>
-          <div class="gallery-nav">
-            <button class="icon-btn" type="button" data-scroll="-1" aria-label="Ver anteriores"><i class="ph ph-arrow-left"></i></button>
-            <button class="icon-btn" type="button" data-scroll="1" aria-label="Ver siguientes"><i class="ph ph-arrow-right"></i></button>
-          </div>
         </div>
-        <div class="gallery" id="gallery" tabindex="0" aria-label="Galería de ejemplos">
+        <div class="gallery" aria-label="Galería de ejemplos">
           <figure class="reveal" style="--i:0"><div class="media v916"><video src="media/ejemplo-1.mp4" muted loop playsinline preload="metadata" aria-label="Avatar hablando a cámara"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-1.mp4</code></div></div><figcaption>Avatar hablando a cámara</figcaption></figure>
-          <figure class="reveal" style="--i:1"><div class="media v916"><img src="media/ejemplo-2.jpg" alt="Retrato realista hecho con IA" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-2.jpg</code></div></div><figcaption>Retrato realista</figcaption></figure>
-          <figure class="reveal" style="--i:2"><div class="media v916"><video src="media/ejemplo-3.mp4" muted loop playsinline preload="metadata" aria-label="UGC de producto"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-3.mp4</code></div></div><figcaption>UGC de producto</figcaption></figure>
-          <figure class="reveal" style="--i:3"><div class="media v916"><img src="media/ejemplo-4.jpg" alt="Avatar en distintos escenarios" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-4.jpg</code></div></div><figcaption>El mismo avatar, otro escenario</figcaption></figure>
-          <figure class="reveal" style="--i:4"><div class="media v916"><video src="media/ejemplo-5.mp4" muted loop playsinline preload="metadata" aria-label="Video para Reels"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-5.mp4</code></div></div><figcaption>Video para Reels y TikTok</figcaption></figure>
-          <figure class="reveal" style="--i:5"><div class="media v916"><img src="media/ejemplo-6.jpg" alt="Foto de producto con IA" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-6.jpg</code></div></div><figcaption>Producto con IA</figcaption></figure>
-          <figure class="reveal" style="--i:6"><div class="media v916"><video src="media/ejemplo-7.mp4" muted loop playsinline preload="metadata" aria-label="Video de estilo de vida"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-7.mp4</code></div></div><figcaption>Escena de estilo de vida</figcaption></figure>
-          <figure class="reveal" style="--i:7"><div class="media v916"><img src="media/ejemplo-8.jpg" alt="Contenido para marca personal" loading="lazy" /><div class="ph"><i class="ph ph-image"></i><code>media/ejemplo-8.jpg</code></div></div><figcaption>Marca personal</figcaption></figure>
+          <figure class="reveal" style="--i:1"><div class="media v916"><video src="media/ejemplo-2.mp4" muted loop playsinline preload="metadata" aria-label="UGC de producto"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-2.mp4</code></div></div><figcaption>UGC de producto</figcaption></figure>
+          <figure class="reveal" style="--i:2"><div class="media v916"><video src="media/ejemplo-3.mp4" muted loop playsinline preload="metadata" aria-label="Video para Reels"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-3.mp4</code></div></div><figcaption>Video para Reels y TikTok</figcaption></figure>
+          <figure class="reveal" style="--i:3"><div class="media v916"><video src="media/ejemplo-4.mp4" muted loop playsinline preload="metadata" aria-label="Video de estilo de vida"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/ejemplo-4.mp4</code></div></div><figcaption>Escena de estilo de vida</figcaption></figure>
         </div>
       </div>
     </section>
@@ -613,13 +600,6 @@
     } else {
       $$('.reveal').forEach((el) => el.classList.add('in'));
     }
-
-    // Flechas de la galería
-    const gallery = document.getElementById('gallery');
-    $$('[data-scroll]').forEach((b) => b.addEventListener('click', () => {
-      const step = gallery.querySelector('figure')?.getBoundingClientRect().width || 280;
-      gallery.scrollBy({ left: Number(b.dataset.scroll) * (step + 18) * 2, behavior: reduceMotion ? 'auto' : 'smooth' });
-    }));
 
     // Barra de compra en el celular: aparece al pasar la portada y se oculta en la sección de precio.
     const bar = document.getElementById('buybar');
