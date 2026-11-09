@@ -108,14 +108,15 @@
     .media .gone { display: none; }
 
     /* ---------- navegación ---------- */
-    .nav { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line); }
+    .nav { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: color-mix(in srgb, #ffffff 85%, transparent); border-bottom: 1px solid var(--line); }
     .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.08em; text-decoration: none; font-size: 18px; }
     .brand img { height: 22px; width: auto; }
     .nav .btn { padding: 10px 18px; font-size: 14px; }
 
     /* ---------- portada ---------- */
-    .hero { padding: 64px 0 80px; overflow: hidden; }
+    /* blanco puro, igual al fondo de la foto, para que se vean como un solo fondo */
+    .hero { padding: 64px 0 80px; overflow: hidden; background: #ffffff; }
     .hero .wrap { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; align-items: center; }
     .hero-copy { display: grid; gap: 22px; justify-items: start; }
     /* marca como en el banner: logo grande + bajada */
