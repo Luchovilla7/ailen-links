@@ -591,8 +591,9 @@
     }
     function tick() {
       const left = Math.max(0, end - Date.now());
-      const h = Math.floor(left / 3600e3), m = Math.floor((left % 3600e3) / 60e3), s = Math.floor((left % 60e3) / 1000);
-      $$('.js-timer').forEach((el) => { el.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`; });
+      const d = Math.floor(left / 864e5), h = Math.floor((left % 864e5) / 3600e3), m = Math.floor((left % 3600e3) / 60e3), s = Math.floor((left % 60e3) / 1000);
+      const dias = d > 0 ? `${d} ${d === 1 ? 'día' : 'días'} ` : '';
+      $$('.js-timer').forEach((el) => { el.textContent = `${dias}${pad(h)}:${pad(m)}:${pad(s)}`; });
       if (!left) { applyPrice(); return false; }
       return true;
     }
