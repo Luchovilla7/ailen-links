@@ -21,7 +21,6 @@
     MEDIOS (carpeta media/ junto a este archivo). Si un archivo no existe, se muestra un recuadro con su nombre.
     Videos 9:16 en .mp4 (H.264), livianos (idealmente < 4 MB c/u). Imágenes .jpg o .webp.
 
-      Videos:             media/hero-1.mp4, media/hero-2.mp4, media/hero-3.mp4          (9:16)
       Ejemplos:           media/ejemplo-1.mp4 ... media/ejemplo-4.mp4                (9:16)
       Qué hay adentro:    media/adentro-avatar.jpg (9:16), media/adentro-video.mp4 (9:16),
                           media/adentro-boveda.jpg (horizontal 16:9)
@@ -116,31 +115,26 @@
 
     /* ---------- portada ---------- */
     /* blanco puro, igual al fondo de la foto, para que se vean como un solo fondo */
-    .hero { padding: 64px 0 0; overflow: hidden; background: #ffffff; }
-    .hero .wrap { display: grid; grid-template-columns: 1fr 1.45fr; gap: 32px; align-items: stretch; }
-    .hero-copy { display: grid; gap: 22px; justify-items: start; align-self: center; padding-bottom: 64px; }
+    /* el hero ocupa el 90% del alto de pantalla y todo se escala según el alto y el ancho disponibles */
+    .hero { min-height: 90vh; min-height: 90svh; display: flex; padding: clamp(24px, 5vh, 64px) 0 0; overflow: hidden; background: #ffffff; border-bottom: 1px solid var(--line); }
+    .hero .wrap { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(16px, 2.5vw, 40px); align-items: stretch; }
+    .hero-copy { display: grid; gap: clamp(12px, 2.4vh, 24px); justify-items: start; align-self: center; padding-bottom: clamp(24px, 5vh, 64px); }
     /* marca como en el banner: logo grande + bajada */
-    .hero-brand { display: grid; gap: 18px; margin: 0; }
-    .hero-brand img { width: clamp(240px, 32vw, 460px); height: auto; }
-    .hero-tagline { font-size: clamp(15px, 1.55vw, 21px); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.25; }
-    .hero-claim { font-size: clamp(26px, 2.6vw, 36px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; }
+    .hero-brand { display: grid; gap: clamp(10px, 1.8vh, 18px); margin: 0; }
+    .hero-brand img { width: clamp(220px, min(34vw, 44vh), 560px); height: auto; }
+    .hero-tagline { font-size: clamp(14px, min(1.6vw, 2.3vh), 24px); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.25; }
+    .hero-claim { font-size: clamp(24px, min(2.8vw, 4.4vh), 42px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; }
     .hero-claim span { display: block; }
     .hero-claim em { font-style: normal; color: var(--text); background: linear-gradient(transparent 58%, var(--cream) 58% 92%, transparent 92%); padding: 0 0.08em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
-    .hero-sub { color: var(--muted); font-size: 18px; max-width: 46ch; }
+    .hero-sub { color: var(--muted); font-size: clamp(16px, min(1.4vw, 2.1vh), 20px); max-width: 46ch; }
     .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
     /* la foto tiene fondo blanco: multiply lo funde con el fondo crema */
     /* la caja de la foto toma la altura del texto: la chica queda alineada de arriba a abajo con él */
-    .hero-visual { position: relative; align-self: stretch; min-height: 360px; }
+    /* la columna de la foto llega hasta el borde derecho de la ventana para que la chica pueda crecer en alto */
+    .hero-visual { position: relative; align-self: stretch; min-height: 360px; margin-right: calc(-1 * max(24px, (100vw - 1192px) / 2)); }
     /* anclada abajo: el corte de la foto se apoya sobre la línea de la sección siguiente */
     .hero-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; mix-blend-mode: multiply; }
 
-    /* ---------- videos 9:16 ---------- */
-    .reels { background: var(--bg-2); border-block: 1px solid var(--line); padding: 104px 0 120px; }
-    .reels-grid { display: grid; grid-template-columns: 0.82fr 1fr 0.82fr; gap: 18px; align-items: center; max-width: 900px; margin: 0 auto; }
-    .reels-grid .media { box-shadow: var(--shadow); }
-    .reels-grid .media:nth-child(1) { translate: 0 28px; }
-    .reels-grid .media:nth-child(2) { translate: 0 -24px; }
-    .reels-grid .media:nth-child(3) { translate: 0 40px; }
 
     /* ---------- ejemplos (galería horizontal) ---------- */
     .gallery-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
@@ -208,6 +202,9 @@
     .price-now { font-size: clamp(56px, 7vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
     .price-now small { font-size: 22px; font-weight: 600; letter-spacing: 0; margin-right: 4px; color: var(--muted); }
     .price-meta { color: var(--muted); font-size: 15px; }
+    .price-note { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid var(--line-2); font-size: 14px; color: var(--muted); }
+    .price-note i { flex: none; font-size: 20px; color: var(--text); margin-top: 1px; }
+    .price-note strong { color: var(--text); }
     .countdown { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--text); font-size: 15px; }
     .countdown b { font-variant-numeric: tabular-nums; font-size: 20px; letter-spacing: 0.02em; }
     .countdown i { color: var(--accent); font-size: 20px; }
@@ -270,18 +267,17 @@
       section { padding: 72px 0; }
       .wrap { padding: 0 16px; }
       .hero { padding: 32px 0 0; }
-      .hero .wrap { grid-template-columns: 1fr; gap: 8px; }
-      .hero-copy { padding-bottom: 0; }
+      .hero .wrap { grid-template-columns: 1fr; gap: 8px; align-content: space-between; }
+      .hero-copy { padding-bottom: 0; gap: 22px; }
+      .hero-brand { gap: 18px; }
+      .hero-brand img { width: 240px; }
+      .hero-tagline { font-size: 15px; }
+      .hero-claim { font-size: 26px; }
       .hero-sub { font-size: 17px; }
       .hero-ctas { width: 100%; }
       .hero-ctas .btn { flex: 1 1 auto; }
-      .hero-visual { position: static; min-height: 0; }
+      .hero-visual { position: static; min-height: 0; margin-right: 0; align-self: end; }
       .hero-visual img { position: static; height: auto; }
-      .reels { padding: 64px 0 80px; }
-      .reels-grid { gap: 10px; }
-      .reels-grid .media:nth-child(1) { translate: 0 16px; }
-      .reels-grid .media:nth-child(2) { translate: 0 -12px; }
-      .reels-grid .media:nth-child(3) { translate: 0 22px; }
       .gallery-head { align-items: flex-start; flex-direction: column; }
       .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
       .manifesto .cols { grid-template-columns: 1fr; gap: 20px; }
@@ -305,7 +301,7 @@
       <a class="brand" href="#top" aria-label="ADAIA, inicio">
         <img src="assets/img/adaia/adaia-wordmark.png" alt="ADAIA" width="1181" height="285" />
       </a>
-      <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span></a>
+      <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$27</span></span></a>
     </div>
   </header>
 
@@ -323,7 +319,7 @@
           <p class="hero-claim"><span>IA que parece real.</span> <em>Sin suscripciones caras.</em></p>
           <p class="hero-sub">Creá tu propio influencer o avatar hiperrealista y generá imágenes y videos de calidad con herramientas estúpidamente baratas. Sin experiencia previa.</p>
           <div class="hero-ctas">
-            <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+            <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$27</span></span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
             <a class="btn btn-ghost" href="#ejemplos"><i class="ph ph-play" aria-hidden="true"></i> Ver ejemplos</a>
           </div>
         </div>
@@ -333,16 +329,6 @@
       </div>
     </section>
 
-    <!-- VIDEOS 9:16 -->
-    <section class="reels" aria-label="Ejemplos de videos hechos con IA">
-      <div class="wrap">
-        <div class="reels-grid">
-          <div class="media v916 reveal" style="--i:0"><video src="media/hero-1.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo 1"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/hero-1.mp4</code></div></div>
-          <div class="media v916 reveal" style="--i:1"><video src="media/hero-2.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo 2"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/hero-2.mp4</code></div></div>
-          <div class="media v916 reveal" style="--i:2"><video src="media/hero-3.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo 3"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/hero-3.mp4</code></div></div>
-        </div>
-      </div>
-    </section>
 
     <!-- EJEMPLOS -->
     <section id="ejemplos">
@@ -423,7 +409,7 @@
       <div class="wrap">
         <div class="sec-head reveal">
           <h2 class="sec-title">Así es la academia por dentro</h2>
-          <p class="lead">Contenidos, recursos y comunidad en un solo lugar. Entrás y empezás a crear.</p>
+          <p class="lead">Contenidos y recursos en un solo lugar. Entrás y empezás a crear.</p>
         </div>
         <div class="inside-grid">
           <div class="inside-main">
@@ -447,9 +433,8 @@
             <li><i class="ph ph-check-circle" aria-hidden="true"></i> Querés contenido con IA que parezca real.</li>
             <li><i class="ph ph-check-circle" aria-hidden="true"></i> Querés tu propio influencer o avatar hiperrealista para tu marca o tus redes.</li>
             <li><i class="ph ph-check-circle" aria-hidden="true"></i> No querés pagar suscripciones caras como Higgsfield, Magnific, OpenArt o HeyGen.</li>
-            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Querés rodearte de gente que está en el mismo camino.</li>
           </ul>
-          <p class="fit-note"><strong>Sin experiencia previa.</strong> Se aprende haciendo, con una comunidad que suma.</p>
+          <p class="fit-note"><strong>Sin experiencia previa.</strong> Se aprende haciendo, paso a paso.</p>
         </div>
         <div class="media v916 reveal" style="--i:1"><video src="media/para-vos.mp4" muted loop playsinline preload="metadata" aria-label="Video de ejemplo"></video><div class="ph"><i class="ph ph-film-strip"></i><code>media/para-vos.mp4</code></div></div>
       </div>
@@ -464,15 +449,19 @@
             <h2>Acceso de por vida a ADAIA</h2>
             <div class="price-row">
               <span class="price-old">US$<span class="js-old">97</span></span>
-              <span class="price-now"><small>US$</small><span class="js-now">17</span></span>
+              <span class="price-now"><small>US$</small><span class="js-now">27</span></span>
             </div>
             <p class="price-meta">Pago único. Sin suscripciones ni cuotas mensuales.</p>
+            <div class="price-note">
+              <i class="ph ph-hourglass-medium" aria-hidden="true"></i>
+              <p><strong>Estamos desarrollando el curso de contenido UGC.</strong> Si entrás ahora, tenés todos los cursos incluidos de por vida, también el de UGC cuando salga. Cuando se lance, ADAIA aumenta su valor.</p>
+            </div>
             <div class="countdown" role="timer" aria-live="off">
               <i class="ph ph-timer" aria-hidden="true"></i>
               <span>Solo por hoy. Termina en</span>
               <b class="js-timer">--:--:--</b>
             </div>
-            <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span></a>
+            <a class="btn btn-primary js-buy" href="#precio"><span>Entrar por <span class="js-price">US$27</span></span></a>
             <p class="price-meta js-after">Después del lanzamiento vuelve a US$97.</p>
           </div>
           <div class="price-incl">
@@ -485,7 +474,7 @@
               <li><i class="ph ph-toolbox" aria-hidden="true"></i> Herramientas estúpidamente baratas</li>
               <li><i class="ph ph-piggy-bank" aria-hidden="true"></i> Ahorro en plataformas IA</li>
               <li><i class="ph ph-vault" aria-hidden="true"></i> La Bóveda de Recursos y Apps</li>
-              <li><i class="ph ph-users-three" aria-hidden="true"></i> Una comunidad que suma</li>
+              <li><i class="ph ph-hourglass-medium" aria-hidden="true"></i> Curso de contenido UGC, cuando salga</li>
             </ul>
           </div>
         </div>
@@ -499,7 +488,7 @@
         <div class="faq-list">
           <details class="reveal">
             <summary>¿Necesito experiencia previa? <i class="ph ph-plus" aria-hidden="true"></i></summary>
-            <p>No. Se aprende haciendo, paso a paso y con una comunidad que acompaña.</p>
+            <p>No. Se aprende haciendo, paso a paso.</p>
           </details>
           <details class="reveal" style="--i:1">
             <summary>¿Tengo que pagar suscripciones caras de IA? <i class="ph ph-plus" aria-hidden="true"></i></summary>
@@ -513,6 +502,10 @@
             <summary>¿Qué voy a poder crear? <i class="ph ph-plus" aria-hidden="true"></i></summary>
             <p>Tu propio influencer o avatar hiperrealista, e imágenes y videos con IA de calidad, listos para tus redes.</p>
           </details>
+          <details class="reveal" style="--i:4">
+            <summary>¿Qué pasa con el curso de contenido UGC? <i class="ph ph-plus" aria-hidden="true"></i></summary>
+            <p>Lo estamos desarrollando. Si entrás ahora, lo vas a tener incluido sin pagar de más, junto con todos los cursos de ADAIA y de por vida. Cuando salga, el valor de la academia va a aumentar.</p>
+          </details>
         </div>
       </div>
     </section>
@@ -522,8 +515,8 @@
       <div class="wrap">
         <img class="closing-mark reveal" src="assets/img/adaia/adaia-isotipo.png" alt="" width="200" height="200" />
         <h2 class="reveal">Basta de suscripciones caras.</h2>
-        <p class="reveal" style="--i:1">Creá un influencer o avatar que parezca real, con herramientas baratísimas, y rodeate de gente en ese camino.</p>
-        <a class="btn btn-primary js-buy reveal" style="--i:2" href="#precio"><span>Entrar por <span class="js-price">US$17</span></span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+        <p class="reveal" style="--i:1">Creá un influencer o avatar que parezca real, con herramientas baratísimas.</p>
+        <a class="btn btn-primary js-buy reveal" style="--i:2" href="#precio"><span>Entrar por <span class="js-price">US$27</span></span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
       </div>
     </section>
   </main>
@@ -537,8 +530,8 @@
   </footer>
 
   <div class="buybar" id="buybar" aria-hidden="true">
-    <span><b class="js-price">US$17</b><br class="js-bar-sub" />Acceso de por vida</span>
-    <a class="btn btn-primary js-buy" href="#precio" tabindex="-1"><span>Entrar por <span class="js-price">US$17</span></span></a>
+    <span><b class="js-price">US$27</b><br class="js-bar-sub" />Acceso de por vida</span>
+    <a class="btn btn-primary js-buy" href="#precio" tabindex="-1"><span>Entrar por <span class="js-price">US$27</span></span></a>
   </div>
 
   <script>
@@ -547,7 +540,7 @@
       // Link de pago (Hotmart, Stripe, Mercado Pago…). Mientras esté vacío, los botones llevan a la sección de precio.
       checkoutUrl: '',
       precioNormal: 97,
-      precioLanzamiento: 17,
+      precioLanzamiento: 27,
       // Fin del precio de lanzamiento (fecha y hora con zona horaria). Pasada esta hora, la página muestra US$97
       // y oculta la cuenta regresiva. Cambiala a la fecha real del lanzamiento.
       finLanzamiento: '2026-12-01T23:59:59-03:00',
