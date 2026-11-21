@@ -449,6 +449,41 @@ button:focus-visible {
     background: #E2DAC9;
 }
 
+/* Tarjeta con portada: imagen arriba a todo el ancho y la fila de texto abajo */
+.link-card.has-cover {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+}
+
+.link-cover {
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
+    background: #ffffff;
+}
+
+.link-cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 600ms var(--ease-premium);
+}
+
+.has-cover:hover .link-cover img {
+    transform: scale(1.03);
+}
+
+.has-cover .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.3rem 1.9rem;
+}
+
 .premium-tag {
     position: absolute;
     top: -12px;
@@ -523,6 +558,10 @@ footer {
 
     .link-card {
         padding: 1.4rem 1.4rem;
+    }
+
+    .has-cover .link-row {
+        padding: 1.1rem 1.4rem;
     }
 
     .modal-content {
